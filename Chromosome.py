@@ -6,12 +6,12 @@ from random import randint
 class Chromosome:
 
     def __init__(self, size):
-        self.genes = [size]
+        self.genes = []
         self.fitness = size
         self.size = size
         self.letters = ascii_letters + ' !\'.,' # All letters accepted
 
-        for i in range(0, size-1):
+        for i in range(0, size):
             self.genes.append(random.choice(ascii_letters))
 
     def evaluate(self, target):

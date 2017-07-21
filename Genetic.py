@@ -52,14 +52,12 @@ class Genetic:
         print("before cross>")
         self.show_selected_indiv()
         index = randint(0, self.chromosome_size)
-        tmp = self.pair_selected_indiv[0].genes
-        for i in range(0, self.chromosome_size):
-            print("DEBUG >>>" + repr(tmp[i]) )
 
         print("debug index ="+ repr(index))
         for i in range(index, self.chromosome_size):
+            tmp = self.pair_selected_indiv[0].genes[i]
             self.pair_selected_indiv[0].genes[i] = self.pair_selected_indiv[1].genes[i]
-            self.pair_selected_indiv[1].genes[i] = tmp[i]
+            self.pair_selected_indiv[1].genes[i] = tmp
         print("after cross>")
         self.show_selected_indiv()
 
