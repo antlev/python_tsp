@@ -6,6 +6,7 @@ from random import randint
 class Chromosome:
 
     def __init__(self, size):
+        random.seed()
         self.genes = []
         self.fitness = size
         self.size = size
@@ -22,7 +23,8 @@ class Chromosome:
         self.fitness = fitness
 
     def mutate(self):
-        self.genes[randint(0, self.size-1)] = random.choice(self.letters)
+        rdm = randint(0, self.size-1)
+        self.genes[rdm] = random.choice(self.letters)
 
     def toString(self):
         str2 = ""
