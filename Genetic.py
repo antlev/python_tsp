@@ -8,8 +8,7 @@ class Genetic:
 
     def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, tsp):
         random.seed()
-        self.nb_city = nb_city # Define the target to find
-        self.chromosome_size = len(nb_city) # Define  the chromosome size
+        self.chromosome_size = nb_city # Define  the chromosome size
         self.pop_size = pop_size # Define the population size
         self.bests = int(pop_size * best_pourcentage) # Define the max index of the individual that is consider as best
         self.mutation_rate = mutation_rate # Define the mutation rate
@@ -50,24 +49,26 @@ class Genetic:
         index2 = randint(0, self.bests)
         while index == index2:
             index2 = randint(0, self.indiv_to_cross)
-
         self.pair_selected_indiv.append(self.population[index])
         self.pair_selected_indiv.append(self.population[index2])
 
     def cross(self):
-
-        # print("before cross>")
-        # self.show_selected_indiv()
-        index = randint(0, self.chromosome_size)
-
-        # print("debug index ="+ repr(index))
-        for i in range(index, self.chromosome_size):
-            tmp = self.pair_selected_indiv[0].genes[i]
-            self.pair_selected_indiv[0].genes[i] = self.pair_selected_indiv[1].genes[i]
-            self.pair_selected_indiv[1].genes[i] = tmp
-        # print("after cross>")
-        # self.show_selected_indiv()
-
+        tmp= 2
+        # print("before cross")
+        # for j in self.pair_selected_indiv:
+        #     print(j.genes)
+        # tmp1 = self.pair_selected_indiv[0]
+        # tmp2 = self.pair_selected_indiv[1]
+        # index = randint(0, self.chromosome_size)
+        # for i in range(index, self.chromosome_size):
+        #     self.pair_selected_indiv[1].genes.remove(tmp1.genes[i]) # Removing gene from the 2nd chromosome
+        #     self.pair_selected_indiv[1].genes.append(tmp1.genes[i]) # Appending it to the end
+        # for i in range(index, self.chromosome_size):
+        #     self.pair_selected_indiv[0].genes.remove(tmp2.genes[i]) # Removing gene from the 2nd chromosome
+        #     self.pair_selected_indiv[0].genes.append(tmp2.genes[i]) # Appending it to the end
+        # print("after cross")
+        # for j in self.pair_selected_indiv:
+        #     print(j.genes)
     def crossover(self):
         # print("before crossover>")
         # self.show_population()
@@ -98,6 +99,7 @@ class Genetic:
         for i in range(0, self.pop_size):
             print("indiviual " + repr(i) + " " + self.population[i].toString())
         self.tsp.draw_sol(self.population[0])
+        self.tsp.fen.mainloop()
 
 
     def show_selected_indiv(self):

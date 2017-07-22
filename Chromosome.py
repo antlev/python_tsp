@@ -4,7 +4,6 @@ from string import ascii_letters
 import random
 from random import randint
 
-from Tsp import Tsp
 
 class Chromosome:
 
@@ -18,16 +17,15 @@ class Chromosome:
             tab.append(i)
 
         while len(tab) > 0:
-            tab_pt = tab[random.randint(0, len(tab))]
+            tab_pt = tab[random.randint(0, len(tab)-1)]
             self.genes.append(tab_pt)
             tab.remove(tab_pt)
 
-
     def evaluate(self, tsp):
-        fitness = 0
-        for i in range(0, self.size):
-            fitness += tsp.distance(self.genes[i], self.genes[i+1])
-        self.fitness = fitness
+        self.fitness = 0
+        for i in range(0, self.size-1):
+            self.fitness += tsp.distance(self.genes[i], self.genes[i+1])
+        self.fitness += tsp.distance(self.genes[self.size-1], self.genes[0])
 
     def mutate(self):
         rdm = randint(0, self.size-1)
