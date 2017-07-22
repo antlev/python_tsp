@@ -1,20 +1,22 @@
 import random
 from random import randint
+import sys
 
 from Chromosome import Chromosome
 
 class Genetic:
 
-    def __init__(self, target, pop_size, best_pourcentage, crossover_rate, mutation_rate):
+    def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, tsp):
         random.seed()
-        self.target = target # Define the target to find
-        self.chromosome_size = len(target) # Define  the chromosome size
+        self.nb_city = nb_city # Define the target to find
+        self.chromosome_size = len(nb_city) # Define  the chromosome size
         self.pop_size = pop_size # Define the population size
         self.bests = int(pop_size * best_pourcentage) # Define the max index of the individual that is consider as best
         self.mutation_rate = mutation_rate # Define the mutation rate
+        self.tsp = tsp
         self.indiv_to_cross = int(crossover_rate * pop_size)
         self.population = [] # Store the population
-        self.best_fitness = len(target) # Stores the score of the best individual
+        self.best_fitness  = sys.float_info.max # Stores the score of the best individual
         self.new_population = [] # List used to build the new population
         self.pair_selected_indiv = [] # A pair of indiv filled by selection function
         for i in range(0,pop_size):
@@ -22,7 +24,7 @@ class Genetic:
 
     def evaluate(self, iter):
         for i in range(0, self.pop_size):
-            self.population[i].evaluate(self.target)
+            self.population[i].evaluate(self.tsp)
         self.order_pop()
         if self.population[0].fitness < self.best_fitness:
             self.best_fitness = self.population[0].fitness
@@ -95,6 +97,8 @@ class Genetic:
         print("--------------- Population ---------------")
         for i in range(0, self.pop_size):
             print("indiviual " + repr(i) + " " + self.population[i].toString())
+        self.tsp.draw_sol(self.population[0])
+
 
     def show_selected_indiv(self):
         print("--------------- selected_ind ---------------")

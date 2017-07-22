@@ -19,6 +19,8 @@ def main():
 
 
     app = Tsp(60)
+
+
     app.run()
 
 if __name__ == '__main__':

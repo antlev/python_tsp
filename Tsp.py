@@ -11,8 +11,6 @@ import os
 
 
 class Tsp(Frame):
-    '''Application principale'''
-
     def __init__(self, nb_city):
         '''constructeur'''
         self.nb_city = nb_city
@@ -27,29 +25,34 @@ class Tsp(Frame):
         self.bou_quitter.config(text='Quitter', command=self.fen.destroy)
         self.bou_quitter.pack()
 
+        self.cities = []
+
     def run(self):
         self.fen.mainloop()
         self.draw()
+
+    def draw_sol(self, chromosome):
+        width = 900
+        height = 900
+        canvas = Canvas(self.fen, width=width, height=height, background='white')
+        canvas.create_polygon(chromosome, fill="magenta", outline="yellow", width=3)
+        canvas.pack()
 
     def draw(self):
         width = 900
         height = 900
         pi = 3.14
         canvas = Canvas(self.fen, width=width, height=height, background='white')
-
         teta = 0
         r = 250
-        cities = []
         while teta < 360:
-            print("teta "+repr(teta)+ " sin(teta) >" +repr(sin(teta)) +" cos(teta) >"+ repr(cos(teta)))
-            cities.append((r*sin(teta*pi/180)+500,r*cos(teta*pi/180)+500))
+            self.cities.append([r*sin(teta*pi/180)+500,r*cos(teta*pi/180)+500])
             teta += 360/self.nb_city
-
-
-        canvas.create_polygon(cities, fill="magenta", outline="yellow", width=3)
+        canvas.create_polygon(self.cities, fill="magenta", outline="yellow", width=3)
         canvas.pack()
 
-
+    def distance(self,x1, x2):
+        return sqrt((self.cities[x2][0] - self.cities[x1][0]) * (self.cities[x2][0] - self.cities[x1][0]) + (self.cities[x2][1] - self.cities[x1][1]) * (self.cities[x2][1] - self.cities[x1][1]))
 
 
         # canvas.pack()
