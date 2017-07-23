@@ -27,7 +27,7 @@ class Genetic:
         self.order_pop()
         if self.population[0].fitness < self.best_fitness:
             self.best_fitness = self.population[0].fitness
-            print("New best solution found ! itetations : " + repr(iter))
+            print("New best solution found ! iterations : " + repr(iter))
             self.show_population()
 
     def order_pop(self):
@@ -99,7 +99,8 @@ class Genetic:
         for i in range(0, self.pop_size):
             print("indiviual " + repr(i) + " " + self.population[i].toString())
         self.tsp.draw_sol(self.population[0])
-        self.tsp.fen.mainloop()
+        self.tsp.fen.update_idletasks()
+        self.tsp.fen.update()
 
 
     def show_selected_indiv(self):
