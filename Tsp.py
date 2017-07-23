@@ -24,7 +24,7 @@ class Tsp(Frame):
         self.bou_action.pack()
 
         self.bou_quitter = Button(self.fen)
-        self.bou_quitter.config(text='Quitter', command=self.fen.quit)
+        self.bou_quitter.config(text='Next', command=self.fen.quit)
         self.bou_quitter.pack()
 
         self.height =  900
