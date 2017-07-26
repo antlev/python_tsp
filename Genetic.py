@@ -31,13 +31,12 @@ class Genetic():
         if self.population[0].fitness < self.best_fitness:
             self.best_fitness = self.population[0].fitness
             print("New best solution found ! iterations : " + repr(iter))
-            self.show_population()
+            self.show_population(iter)
             if self.best_fitness == self.minimum_fitness:
                 print("Youpi ! !")
                 self.tsp.build()
-                time.sleep(5)
-                exit(0)
-
+                return 1
+            return 0
     # Order the population using their fitness
     def order_pop(self):
         permutation = True
@@ -98,7 +97,6 @@ class Genetic():
         self.pair_selected_indiv[0] = self.pair_selected_indiv[1]
         self.pair_selected_indiv[1] = tmp
 
-
         # 1) copy all the genes that are between both indexes
         for i in range(index, index2):
             child2[i] = self.pair_selected_indiv[0].genes[i]
@@ -150,26 +148,31 @@ class Genetic():
                 self.population[i].mutate()
 
     # Print population
-    def show_population(self):
-        print("nb_city:"+repr(self.chromosome_size)+"pop_size:"+repr(self.pop_size)+" bests:"+repr(self.bests)+" indiv_to_cross:"+repr(self.indiv_to_cross)+" mutation_rate:"+repr(self.mutation_rate)+" iterations_max:"+repr(self.iterations_max))
+    def show_population(self, iterations):
+        print("nb_city:"+repr(self.chromosome_size)+" pop_size:"+repr(self.pop_size)+" bests:"+repr(self.bests)+" indiv_to_cross:"+repr(self.indiv_to_cross)+" mutation_rate:"+repr(self.mutation_rate)+" iterations_max:"+repr(self.iterations_max))
         print("-------------------------- Population --------------------------")
         for i in range(0, self.pop_size):
             print("indiviual " + repr(i) + " " + self.population[i].toString())
-        self.tsp.draw_sol(self.population[0])
+        self.tsp.draw_sol(self.population[0], iterations)
         self.tsp.fen.update_idletasks()
         self.tsp.fen.update()
 
     # Defines the genetic algorithm
     def run(self):
-        time.sleep((10))
         iter = 0
         self.evaluate(iter)
         while self.population[0].fitness > self.minimum_fitness and iter < self.iterations_max:
             self.crossover()
             self.mutate()
             iter += 1
-            self.evaluate(iter)
-            # self.show_population()
-        print("STOP BY ITERATIONS")
-        self.show_population()
+            if self.evaluate(iter):
+                break
+        self.show_population(self.iterations_max)
+        if iter == self.iterations_max:
+            print("Stop by iterations")
+            return 1
+        else:
+            print("Best answer successfull in " + repr(iter) + " iterations")
+            return 0
+
 

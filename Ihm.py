@@ -21,7 +21,7 @@ class Ihm:
         self.best_pourcentage.set(0.5)
         self.crossover_rate.set(0.7)
         self.mutation_rate.set(0.05)
-        self.iterations_max.set(10000)
+        self.iterations_max.set(1000000)
         # To modify those variable in the entries
         def call_back(*args):
             tmp=0
@@ -31,8 +31,8 @@ class Ihm:
         self.crossover_rate.trace("w", call_back)
         self.mutation_rate.trace("w", call_back)
         self.iterations_max.trace("w", call_back)
-        self.bou_action = Button( self.fen, text='Lancer', command= lambda: self.run())
-        self.bou_action2 = Button( self.fen, text='Quitter', command= self.fen.quit)
+        self.bou_action = Button( self.fen, text='RUN', command= lambda: self.run())
+        self.bou_action2 = Button( self.fen, text='QUIT', command= self.fen.quit)
         self.bou_action.pack()
         self.bou_action2.pack()
         self.label = Label(self.fen, text="Nb City")

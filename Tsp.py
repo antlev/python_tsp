@@ -15,44 +15,67 @@ class Tsp(Frame, Thread):
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
         self.iterations_max = iterations_max
+        def call_back(*args):
+            tmp=0
         # set the window for tsp
         self.fen = Tk()
         self.fen.title('TSP')
         self.height = 900
         self.width = 900
         self.canvas = Canvas(self.fen, width=self.width, height=self.height, background='white')
-        self.bou_action = Button(self.fen)
-        self.bou_action.config(text='Start', command=self.run)
-        self.bou_action.pack()
-        # self.bou_action = Button(self.fen)
-        # self.bou_action.config(text='Stop', command=self.fen.quit)
-        # self.bou_action.pack()
+        self.start_button = Button(self.fen)
+        self.start_button.config(text='Start', command=self.run)
+        self.start_button.pack()
+        self.label_nb_city = Label(self.fen, text="Nb City : " + repr(self.nb_city))
+        self.label_nb_city.pack()
+        self.label_pop_size = Label(self.fen, text="Population size : " + repr(self.pop_size))
+        self.label_pop_size.pack()
+        self.label_best_pourcentage = Label(self.fen, text="Bests pourcentage : " + repr(self.best_pourcentage))
+        self.label_best_pourcentage.pack()
+        self.label_crossover_rate = Label(self.fen, text="Crossover Rate : " + repr(self.crossover_rate))
+        self.label_crossover_rate.pack()
+        self.label_mutation_rate = Label(self.fen, text="Mutation Rate : " + repr(self.mutation_rate))
+        self.label_mutation_rate.pack()
+        self.iterations = IntVar()
+        self.iterations.set(0)
+        self.iterations.trace("w", call_back)
+        self.fitness = IntVar()
+        self.fitness.set(0)
+        self.fitness.trace("w", call_back)
+        self.label_iterations_max = Label(self.fen, text="Iterations Max : " + repr(self.iterations_max))
+        self.label_iterations_max.pack()
+        self.label_current_iter = Label(self.fen, text="Current Iterations : " + repr(self.iterations.get()))
+        self.label_current_iter.pack()
+        self.label_fitness = Label(self.fen, text="Current fitness : " + repr(self.fitness.get()))
+        self.label_fitness.pack()
+        self.status = StringVar()
+        self.status.set("READY")
+        self.status.trace("w", call_back)
+        self.label_status = Label(self.fen, text=self.status.get())
+        self.label_status.pack()
+        self.build() # Build a polygon of the response
 
+        self.fen.update()
+        self.fen.update_idletasks()
 
-        self.label = Label(self.fen, text="Nb City : " + repr(self.nb_city))
-        self.label.pack()
-        self.label = Label(self.fen, text="Population size : " + repr(self.pop_size))
-        self.label.pack()
-        self.label = Label(self.fen, text="Bests pourcentage : " + repr(self.best_pourcentage))
-        self.label.pack()
-        self.label = Label(self.fen, text="Crossover Rate : " + repr(self.crossover_rate))
-        self.label.pack()
-        self.label = Label(self.fen, text="Mutation Rate : " + repr(self.mutation_rate))
-        self.label.pack()
-        self.label = Label(self.fen, text="Iterations Max : " + repr(self.iterations_max))
-        self.label.pack()
-        self.build()
-
-
-
+    # Launch the gentic algorithm
     def run(self):
         gen = Genetic(self.nb_city, self.pop_size, self.best_pourcentage, self.crossover_rate, self.mutation_rate, self.iterations_max, self)
-        gen.run() # Launch the algorithm
+        self.status.set("RUNNING")
+        self.label_status.pack()
+        if gen.run() == 0: # Launch the algorithm
+            self.status.set("RUNNING")
+        else:
+            self.status.set("FAILURE")
 
     # Draw the new solution
-    def draw_sol(self, chromosome):
+    def draw_sol(self, chromosome, iteration):
         self.canvas.delete("all")
         self.canvas.pack()
+        self.iterations = iteration
+        self.label_current_iter.pack()
+        self.fitness = chromosome.fitness
+        self.label_fitness.pack()
         width = 900
         height = 900
         path = []
@@ -62,6 +85,7 @@ class Tsp(Frame, Thread):
         self.canvas.create_line(path, width=1)
         self.canvas.pack()
 
+    # Build a polygon with the cities
     def build(self):
         center = 300
         pi = 3.14
@@ -78,6 +102,7 @@ class Tsp(Frame, Thread):
         tmp = self.cities[x1][1]
         return sqrt((self.cities[x2][0] - self.cities[x1][0]) * (self.cities[x2][0] - self.cities[x1][0]) + (self.cities[x2][1] - self.cities[x1][1]) * (self.cities[x2][1] - self.cities[x1][1]))
 
+    # Calculate the best path (using the circle path 0->1->2->3->...->n->0)
     def calc_best_length(self):
         length = 0
         for i in range(0,self.nb_city-1):
