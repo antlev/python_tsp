@@ -1,5 +1,5 @@
 from tkinter import *
-from Tsp import Tsp
+from Windows.Tsp import Tsp
 
 class Ihm:
     def __init__(self):

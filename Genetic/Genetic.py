@@ -1,8 +1,8 @@
 import random
-from random import randint
 import sys
-import time
-from Chromosome import Chromosome
+from random import randint
+from Genetic.Chromosome import Chromosome
+
 
 class Genetic():
     # Constructor, set all the variable needed

@@ -1,7 +1,7 @@
 from threading import Thread
 from tkinter import *
 from math import *
-from Genetic import Genetic
+from Genetic.Genetic import Genetic
 
 class Tsp(Frame, Thread):
     def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, iterations_max):
