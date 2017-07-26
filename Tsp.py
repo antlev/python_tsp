@@ -1,31 +1,38 @@
+from threading import Thread
 from tkinter import *
 from math import *
 from Genetic import Genetic
 
-class Tsp(Frame):
-    def __init__(self, nb_city):
-        # set the window
+class Tsp(Frame, Thread):
+    def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, iterations_max):
+        Thread.__init__(self)
+        print("Succesful launch of TSP with nb_city = "+ repr(nb_city) + " pop_size = "+ repr(pop_size) + " best_pourcentage = "+ repr(best_pourcentage) + " crossover_rate = "+ repr(crossover_rate)+ " mutation_rate = "+ repr(mutation_rate))
+        # set the window for tsp
         self.fen = Tk()
         self.fen.title('TSP')
         self.height = 900
         self.width = 900
         self.canvas = Canvas(self.fen, width=self.width, height=self.height, background='white')
         self.bou_action = Button(self.fen)
-        self.bou_action.config(text='build', command=self.build)
+        self.bou_action.config(text='Start', command=self.run)
+        self.bou_action.pack()
+        self.bou_action = Button(self.fen)
+        self.bou_action.config(text='Stop', command=self.fen.quit)
         self.bou_action.pack()
         # set the algorithm variables
         self.nb_city = nb_city
         self.cities = []
+        self.pop_size  = pop_size
+        self.best_pourcentage = best_pourcentage
+        self.crossover_rate = crossover_rate
+        self.mutation_rate = mutation_rate
+        self.iterations_max = iterations_max
         self.build()
-        pop_size = 16
-        best_pourcentage = 0.70
-        crossover_rate = 0.70
-        mutation_rate = 0.01
-        gen = Genetic(nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, self)
 
-        iterations = 100000
-        best_fitness_exp = 0
-        gen.start(iterations, best_fitness_exp) # Launch the algorithm
+
+    def run(self):
+        gen = Genetic(self.nb_city, self.pop_size, self.best_pourcentage, self.crossover_rate, self.mutation_rate, self.iterations_max, self)
+        gen.run() # Launch the algorithm
 
     # Draw the new solution
     def draw_sol(self, chromosome):

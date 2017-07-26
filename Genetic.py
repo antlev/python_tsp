@@ -5,9 +5,9 @@ import time
 
 from Chromosome import Chromosome
 
-class Genetic:
+class Genetic():
     # Constructor, set all the variable needed
-    def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, tsp):
+    def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate,iterations, tsp):
         random.seed()
         self.chromosome_size = nb_city # Define  the chromosome size
         self.pop_size = pop_size # Define the population size
@@ -20,9 +20,12 @@ class Genetic:
         self.minimum_fitness = tsp.calc_best_length()
         self.new_population = [] # List used to build the new population
         self.pair_selected_indiv = [] # A pair of indiv filled by selection function
+        self.iterations_max = iterations
         for i in range(0,pop_size):
             self.population.append(Chromosome(self.chromosome_size)) # init a population
 
+    def print_toto(self):
+        print("toto")
     # Evaluate a population and print it a new best solution is found
     def evaluate(self, iter):
         for i in range(0, self.pop_size):
@@ -164,10 +167,12 @@ class Genetic:
             print("indiviual " + repr(i) + " " + self.pair_selected_indiv[i].toString())
 
     # Defines the genetic algorithm
-    def start(self, iterations_max, best_fitness_exp):
+    def run(self):
+        print("titi")
+        time.sleep((10))
         iter = 0
         self.evaluate(iter)
-        while self.population[0].fitness > best_fitness_exp and iter < iterations_max:
+        while self.population[0].fitness > self.minimum_fitness and iter < self.iterations_max:
             self.crossover()
             self.mutate()
             iter += 1
