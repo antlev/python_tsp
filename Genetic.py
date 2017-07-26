@@ -2,13 +2,12 @@ import random
 from random import randint
 import sys
 import time
-
 from Chromosome import Chromosome
 
 class Genetic():
     # Constructor, set all the variable needed
     def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate,iterations, tsp):
-        random.seed()
+        random.seed() # Use timestamp as seed
         self.chromosome_size = nb_city # Define  the chromosome size
         self.pop_size = pop_size # Define the population size
         self.bests = int(pop_size * best_pourcentage) # Define the max index of the individual that is consider as best
@@ -24,8 +23,6 @@ class Genetic():
         for i in range(0,pop_size):
             self.population.append(Chromosome(self.chromosome_size)) # init a population
 
-    def print_toto(self):
-        print("toto")
     # Evaluate a population and print it a new best solution is found
     def evaluate(self, iter):
         for i in range(0, self.pop_size):
@@ -154,21 +151,16 @@ class Genetic():
 
     # Print population
     def show_population(self):
-        print("--------------- Population ---------------")
+        print("nb_city:"+repr(self.chromosome_size)+"pop_size:"+repr(self.pop_size)+" bests:"+repr(self.bests)+" indiv_to_cross:"+repr(self.indiv_to_cross)+" mutation_rate:"+repr(self.mutation_rate)+" iterations_max:"+repr(self.iterations_max))
+        print("-------------------------- Population --------------------------")
         for i in range(0, self.pop_size):
             print("indiviual " + repr(i) + " " + self.population[i].toString())
         self.tsp.draw_sol(self.population[0])
         self.tsp.fen.update_idletasks()
         self.tsp.fen.update()
 
-    def show_selected_indiv(self):
-        print("--------------- selected_ind ---------------")
-        for i in range(0, 2):
-            print("indiviual " + repr(i) + " " + self.pair_selected_indiv[i].toString())
-
     # Defines the genetic algorithm
     def run(self):
-        print("titi")
         time.sleep((10))
         iter = 0
         self.evaluate(iter)
@@ -179,5 +171,5 @@ class Genetic():
             self.evaluate(iter)
             # self.show_population()
         print("STOP BY ITERATIONS")
-        time.sleep(5)
+        self.show_population()
 

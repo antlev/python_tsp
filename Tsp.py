@@ -7,6 +7,14 @@ class Tsp(Frame, Thread):
     def __init__(self, nb_city, pop_size, best_pourcentage, crossover_rate, mutation_rate, iterations_max):
         Thread.__init__(self)
         print("Succesful launch of TSP with nb_city = "+ repr(nb_city) + " pop_size = "+ repr(pop_size) + " best_pourcentage = "+ repr(best_pourcentage) + " crossover_rate = "+ repr(crossover_rate)+ " mutation_rate = "+ repr(mutation_rate))
+        # set the algorithm variables
+        self.cities = []
+        self.nb_city = nb_city
+        self.pop_size  = pop_size
+        self.best_pourcentage = best_pourcentage
+        self.crossover_rate = crossover_rate
+        self.mutation_rate = mutation_rate
+        self.iterations_max = iterations_max
         # set the window for tsp
         self.fen = Tk()
         self.fen.title('TSP')
@@ -16,18 +24,25 @@ class Tsp(Frame, Thread):
         self.bou_action = Button(self.fen)
         self.bou_action.config(text='Start', command=self.run)
         self.bou_action.pack()
-        self.bou_action = Button(self.fen)
-        self.bou_action.config(text='Stop', command=self.fen.quit)
-        self.bou_action.pack()
-        # set the algorithm variables
-        self.nb_city = nb_city
-        self.cities = []
-        self.pop_size  = pop_size
-        self.best_pourcentage = best_pourcentage
-        self.crossover_rate = crossover_rate
-        self.mutation_rate = mutation_rate
-        self.iterations_max = iterations_max
+        # self.bou_action = Button(self.fen)
+        # self.bou_action.config(text='Stop', command=self.fen.quit)
+        # self.bou_action.pack()
+
+
+        self.label = Label(self.fen, text="Nb City : " + repr(self.nb_city))
+        self.label.pack()
+        self.label = Label(self.fen, text="Population size : " + repr(self.pop_size))
+        self.label.pack()
+        self.label = Label(self.fen, text="Bests pourcentage : " + repr(self.best_pourcentage))
+        self.label.pack()
+        self.label = Label(self.fen, text="Crossover Rate : " + repr(self.crossover_rate))
+        self.label.pack()
+        self.label = Label(self.fen, text="Mutation Rate : " + repr(self.mutation_rate))
+        self.label.pack()
+        self.label = Label(self.fen, text="Iterations Max : " + repr(self.iterations_max))
+        self.label.pack()
         self.build()
+
 
 
     def run(self):

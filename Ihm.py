@@ -1,14 +1,7 @@
 from tkinter import *
-from Genetic import Genetic
-from math import *
 from Tsp import Tsp
-import time
-
-
-
 
 class Ihm:
-
     def __init__(self):
         # set the window
         self.fen = Tk()
@@ -29,31 +22,30 @@ class Ihm:
         self.crossover_rate.set(0.7)
         self.mutation_rate.set(0.05)
         self.iterations_max.set(10000)
-        # To modify thos variable in the entries
-        def mywarWritten(*args):
-            print
-            "mywarWritten", self.nb_city.get()
-        self.nb_city.trace("w", mywarWritten)
-        self.pop_size.trace("w", mywarWritten)
-        self.best_pourcentage.trace("w", mywarWritten)
-        self.crossover_rate.trace("w", mywarWritten)
-        self.mutation_rate.trace("w", mywarWritten)
-        self.iterations_max.trace("w", mywarWritten)
+        # To modify those variable in the entries
+        def call_back(*args):
+            tmp=0
+        self.nb_city.trace("w", call_back)
+        self.pop_size.trace("w", call_back)
+        self.best_pourcentage.trace("w", call_back)
+        self.crossover_rate.trace("w", call_back)
+        self.mutation_rate.trace("w", call_back)
+        self.iterations_max.trace("w", call_back)
         self.bou_action = Button( self.fen, text='Lancer', command= lambda: self.run())
         self.bou_action2 = Button( self.fen, text='Quitter', command= self.fen.quit)
         self.bou_action.pack()
         self.bou_action2.pack()
         self.label = Label(self.fen, text="Nb City")
         self.label.pack()
-        self.entry = Entry(self.fen, textvariable=self.nb_city, validatecommand='all')
+        self.entry = Entry(self.fen, textvariable=self.nb_city, validatecommand='focusout')
         self.entry.pack()
         self.label = Label(self.fen, text="Population size")
         self.label.pack()
-        self.entry1 = Entry( self.fen, textvariable=self.pop_size, validatecommand = 'focusout')
+        self.entry1 = Entry(self.fen, textvariable=self.pop_size, validatecommand='focusout')
         self.entry1.pack()
         self.label = Label(self.fen, text="Best Pourcentage")
         self.label.pack()
-        self.entry = Entry( self.fen, textvariable=self.best_pourcentage, validatecommand = 'focusout')
+        self.entry = Entry(self.fen, textvariable=self.best_pourcentage, validatecommand = 'focusout')
         self.entry.pack()
         self.label = Label(self.fen, text="Crossover Rate")
         self.label.pack()
@@ -68,8 +60,8 @@ class Ihm:
         self.entry = Entry( self.fen, textvariable=self.iterations_max, validatecommand = 'focusout')
         self.entry.pack()
 
-        self.fen.mainloop()
-
+        self.fen.mainloop() # Main loop on Ihm
+    # Instantiate a new TSP (new window, new thread)
     def run(self):
         Tsp(self.nb_city.get(), self.pop_size.get(), self.best_pourcentage.get(), self.crossover_rate.get(), self.mutation_rate.get(), self.iterations_max.get())
 
